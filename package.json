@@ -1,0 +1,23 @@
+{
+  "name": "vecs",
+  "version": "0.1.0",
+  "description": "Personal local vector DB cluster — ingest anything, query by similarity",
+  "type": "module",
+  "bin": {
+    "vecs": "./cli/index.js"
+  },
+  "scripts": {
+    "start": "node cli/index.js"
+  },
+  "dependencies": {
+    "@qdrant/js-client-rest": "^1.9.0",
+    "commander": "^12.1.0",
+    "dotenv": "^16.4.5",
+    "fastembed": "^2.1.0",
+    "js-yaml": "^4.1.0",
+    "tiktoken": "^1.0.17"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

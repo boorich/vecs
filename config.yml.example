@@ -1,0 +1,28 @@
+# vecs configuration
+# Copy to config.yml and customise per domain
+# cp config.yml.example config.yml
+
+embedding:
+  model: BAAI/bge-small-en-v1.5   # fastembed model name (downloaded once, cached in ~/.cache/fastembed)
+
+qdrant:
+  url: http://localhost:6333
+  vector_size: 384                  # BAAI/bge-small-en-v1.5 output dimension
+
+# Per-domain defaults — override any of these per collection
+domains:
+  default:
+    chunk_strategy: paragraph       # paragraph | token | code
+    chunk_size: 512                 # tokens (used by token strategy)
+    chunk_overlap: 64               # token overlap between windows
+
+  code:
+    chunk_strategy: code
+
+  transcripts:
+    chunk_strategy: token
+    chunk_size: 400
+    chunk_overlap: 80
+
+  notes:
+    chunk_strategy: paragraph

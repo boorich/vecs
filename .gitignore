@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Qdrant data
+qdrant_data/
+
+# Environment
+.env
+
+# Config (keep the .example files, ignore the real ones)
+config.yml
+
+# Fastembed model cache
+.cache/
+local_cache/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+npm-debug.log*
