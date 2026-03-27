@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  launchd plist for Qdrant running as a user-level background daemon.
+  Installed to: ~/Library/LaunchAgents/dev.vecs.qdrant.plist
+  Managed by:   npm run install:system / npm run uninstall:system
+
+  QDRANT_HOME and DATA_PATH placeholders are replaced by scripts/install.js
+  at install time with the actual expanded paths.
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>dev.vecs.qdrant</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>QDRANT_BIN</string>
+  </array>
+
+  <key>WorkingDirectory</key>
+  <string>QDRANT_DATA</string>
+
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>QDRANT__STORAGE__STORAGE_PATH</key>
+    <string>QDRANT_DATA</string>
+    <key>QDRANT__STORAGE__SNAPSHOTS_PATH</key>
+    <string>QDRANT_SNAPSHOTS</string>
+    <key>QDRANT__SERVICE__HTTP_PORT</key>
+    <string>6333</string>
+    <key>QDRANT__SERVICE__GRPC_PORT</key>
+    <string>6334</string>
+  </dict>
+
+  <!-- Start automatically on login, keep alive if it crashes -->
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+
+  <!-- Logs -->
+  <key>StandardOutPath</key>
+  <string>QDRANT_LOG_OUT</string>
+  <key>StandardErrorPath</key>
+  <string>QDRANT_LOG_ERR</string>
+</dict>
+</plist>

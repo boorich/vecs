@@ -3,11 +3,36 @@
 Local-first CLI tool for building and querying domain-scoped vector databases.
 No API keys required — everything runs on your machine.
 
-**Stack:** Qdrant (Docker) · fastembed (BAAI/bge-small-en-v1.5, ~130 MB, cached locally) · Node.js 18+
+**Stack:** Qdrant · fastembed (BAAI/bge-small-en-v1.5, ~130 MB, cached locally) · Node.js 18+
 
 ---
 
-## Setup
+## Native install (daily use)
+
+Installs Qdrant as a macOS background daemon and places `vecs` in your PATH.
+Qdrant starts automatically on login. No Docker required.
+
+```bash
+npm run install:system
+```
+
+The installer:
+- Downloads the Qdrant binary for your CPU (arm64 or x86_64) from GitHub releases
+- Registers it as a launchd user daemon (`~/Library/LaunchAgents/dev.vecs.qdrant.plist`)
+- Creates `~/.vecs/data/` for persistent vector storage
+- Links the `vecs` CLI into your PATH via `npm link`
+
+To remove everything:
+
+```bash
+npm run uninstall:system
+```
+
+---
+
+## Development setup
+
+For hacking on vecs itself, or running it from the repo without a system install.
 
 ### 1. Start Qdrant
 
@@ -26,7 +51,7 @@ cp .env.example .env
 
 Defaults work out of the box. Edit `config.yml` to change the embedding model or per-domain chunk strategies.
 
-### 3. Install globally
+### 3. Link CLI
 
 ```bash
 sudo npm link
@@ -227,8 +252,8 @@ QDRANT_URL=http://localhost:6333
 ## Requirements
 
 - Node.js 18+
-- Docker (for Qdrant)
 - ~130 MB disk space for the embedding model (downloaded once to `~/.cache/fastembed`)
+- Docker — only for the development setup, not required for native install
 
 ---
 

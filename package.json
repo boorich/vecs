@@ -7,7 +7,9 @@
     "vecs": "./cli/index.js"
   },
   "scripts": {
-    "start": "node cli/index.js"
+    "start": "node cli/index.js",
+    "install:system": "node scripts/install.js",
+    "uninstall:system": "node scripts/uninstall.js"
   },
   "dependencies": {
     "@qdrant/js-client-rest": "^1.9.0",

@@ -14,6 +14,9 @@ config.yml
 .cache/
 local_cache/
 
+# Build output
+dist/
+
 # macOS
 .DS_Store
 
