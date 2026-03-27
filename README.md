@@ -99,6 +99,59 @@ List all collections with point counts and vector dimensions.
 vecs list
 ```
 
+### `vecs check [path]`
+
+Analyse a file before ingesting. Surfaces noise, duplicates, and chunk previews. Includes mandatory reflection prompts to keep your collections clean.
+
+```bash
+# Check a file
+vecs check notes/meeting.md
+
+# Check against a specific collection only
+vecs check notes/meeting.md --collection docs
+
+# Machine-readable output for scripting (skips human prompts)
+vecs check notes/meeting.md --json
+```
+
+**What it does, in order:**
+
+1. **Reflection prompts** — five questions you must read before seeing the data. Not skippable. The friction is intentional.
+2. **File info** — filename, size, encoding, detected language.
+3. **Structure signal** — guesses the best chunk strategy (`paragraph` / `token` / `code`) from content patterns, with a one-line reason.
+4. **Chunk preview** — estimated chunk count, first 2 chunk previews, shortest/longest chunk by token count. Flags any chunk under 30 tokens as likely noise.
+5. **Noise indicators** — whitespace ratio and boilerplate signals (HTML tags, email headers, repeated lines). Warns if > 25% looks noisy.
+6. **Duplicate overlap** — embeds a sample of 3 chunks and runs similarity search against existing collections. Reports overlap percentage and top match score per collection. Warns on near-duplicates (score > 0.95).
+7. **Suggested ingest command** — the exact `vecs ingest` command to copy-paste.
+
+**Options:**
+
+| Flag | Description |
+|------|-------------|
+| `--collection <name>` | Check overlap against one collection only (default: all) |
+| `--json` | Output raw JSON, skip human prompts |
+
+**JSON output shape:**
+
+```json
+{
+  "file": "meeting.md",
+  "size_kb": 12.4,
+  "encoding": "UTF-8",
+  "language": "markdown",
+  "suggested_strategy": "paragraph",
+  "strategy_reason": "prose structure detected (markdown headers)",
+  "estimated_chunks": 18,
+  "noise_ratio": 0.04,
+  "duplicate_overlap": [
+    { "collection": "docs", "score": 0.87, "overlap_pct": 33 }
+  ],
+  "chunk_previews": ["...", "..."],
+  "flags": [],
+  "suggested_command": "vecs ingest <collection> notes/meeting.md --chunk paragraph"
+}
+```
+
 ---
 
 ## Chunking strategies

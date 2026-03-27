@@ -3,6 +3,7 @@ import { Command } from 'commander'
 import { ingest } from './ingest.js'
 import { query } from './query.js'
 import { list } from './list.js'
+import { check } from './check.js'
 
 const program = new Command()
 
@@ -46,6 +47,20 @@ program
   .action(async () => {
     try {
       await list()
+    } catch (err) {
+      console.error(`Error: ${err.message}`)
+      process.exit(1)
+    }
+  })
+
+program
+  .command('check [path]')
+  .description('Analyse a file before ingesting. Surfaces noise, duplicates, and chunk previews. Includes mandatory reflection prompts to keep your collections clean.')
+  .option('--collection <name>', 'check overlap against a specific collection (default: all)')
+  .option('--json', 'output raw JSON, skip human prompts (for scripting)')
+  .action(async (path, opts) => {
+    try {
+      await check(path, opts)
     } catch (err) {
       console.error(`Error: ${err.message}`)
       process.exit(1)
